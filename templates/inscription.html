@@ -1,0 +1,82 @@
+{% extends "layout.html"%} {% block content %}
+<div class="container">
+  <h1 class="text-center my-3">Inscription</h1>
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      {% with messages=get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category,message in messages %}
+      <div class="alert alert-{{category}}">
+        <strong>{{message}}</strong>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+      <div class="card">
+        <div class="card-body">
+          <form action="" method="POST">
+            <div class="my-2">
+              <label for=""><b>Nom :</b></label>
+              <input
+                type="text"
+                name="nom"
+                id="fname"
+                class="form-control my-1"
+              />
+            </div>
+            <div class="my-2">
+              <label for=""><b>Prénom : </b></label>
+              <input
+                type="text"
+                name="prenom"
+                id="lname"
+                class="form-control my-1"
+              />
+            </div>
+            <div class="my-2">
+              <label for=""><b>E-mail :</b></label>
+              <input
+                type="email"
+                name="email"
+                id="username"
+                class="form-control my-1"
+              />
+            </div>
+            <div class="my-2">
+              <label for=""><b>Mot de passe :</b></label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="form-control my-1"
+              />
+            </div>
+            <div class="my-2">
+              <label for=""><b>Confirmer le mot de passe :</b></label>
+              <input
+                type="password"
+                name="confirmepassword"
+                id="password"
+                class="form-control my-1"
+              />
+            </div>
+            <div class="my-3">
+              <label for=""><b>Loisirs : </b></label>
+
+              <select class="form-select" aria-label="Default select example" name="loisirs">
+                <option value="lecture" selected>Lecture</option>
+                <option value="sport">Sport</option>
+                <option value="musique">Musique</option>
+                <option value="voyage">Voyage</option>
+                <option value="cinema">Cinéma</option>
+              </select>
+            </div>
+            <button class="btn btn-success">Signup</button>
+            <span class="d-flex align-items-center"
+              >Already Account ?
+              <a href="/" class="text-center nav-link">Login</a></span
+            >
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

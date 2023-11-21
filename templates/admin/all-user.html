@@ -1,0 +1,60 @@
+{% extends "admin/layout.html"%} {% block content %}
+<div class="container">
+  {% include 'admin/navbar.html' %} {% with
+  messages=get_flashed_messages(with_categories=true) %} {% if messages %} {%
+  for category,message in messages %}
+  <div class="alert alert-{{category}}">
+    <strong>{{message}}</strong>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+  <div class="my-2">
+    <form action="" method="POST" style="width: 100%">
+      <div class="d-flex align-items-center">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          class="form-control my-1 w-50"
+        />
+        <button type="submit" class="btn btn-success" style="margin-left: 10px">
+          Recherche par Nom
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="my-2">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>Loisirs</th>
+            <th>Etat</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{user._id}}</td>
+            <td>{{user.nom}}</td>
+            <td>{{user.prenom}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.loisirs}}</td>
+            <td>
+              {% if user.active == 1 %} active déja {% else %}
+              <a href="/admin/approve-user/{{user._id}}">
+                <button class="btn btn-warning">Activer</button>
+              </a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}
