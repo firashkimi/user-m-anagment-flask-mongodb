@@ -23,13 +23,13 @@ mycollection = mydb["users"]
 
 
 # Création admin compte  
-mydoc={"nom":"firas","prenom":"hkimi","email":"f@gmail.com","password":"123","active":"1","role":"admin"}
+# mydoc={"nom":"firas","prenom":"hkimi","email":"f@gmail.com","password":"123","active":"1","role":"admin"}
 
 # Check if admin account exist 
-admin = mycollection.find_one({"email":"f@gmail.com"})
+# admin = mycollection.find_one({"email":"f@gmail.com"})
 # Create Account if not Exist
-if not(admin) :
-    mycollection.insert_one(mydoc)
+# if not(admin) :
+#     mycollection.insert_one(mydoc)
 
 # Sign Up 
 @app.route('/signup',methods=["POST","GET"])
@@ -82,8 +82,8 @@ def signup():
 def signin():
     if  session.get('user_id'):
         return redirect('/user/dashboard')
-    if  session.get('admin_id'):
-        return redirect('/admin/dashboard')
+    # if  session.get('admin_id'):
+    #     return redirect('/admin/dashboard')
     if request.method=="POST":
         # get the name of the field
         email=request.form.get('email')
@@ -116,8 +116,8 @@ def signin():
 # Admin Dashboard
 @app.route('/admin/dashboard')
 def adminDashboard():
-    if not session.get('admin_id'):
-        return redirect('/admin/')
+    # if not session.get('admin_id'):
+    #     return redirect('/admin/')
     totalUser=mycollection.count_documents({"role":"user"}) # Liste des utilisateurs 
     totalActive=mycollection.count_documents({'active': 1}) # Liste des utilisateurs actives
     TotalNonActive=mycollection.count_documents({'active': 0}) # Liste des utilisateurs non actives
@@ -127,8 +127,8 @@ def adminDashboard():
 # admin get all user 
 @app.route('/admin/get-all-user', methods=["POST","GET"])
 def adminGetAllUser():
-    if not session.get('admin_id'):
-        return redirect('/admin/')
+    # if not session.get('admin_id'):
+    #     return redirect('/admin/')
     if request.method== "POST":
         search=request.form.get('search')
         users = mycollection.find({"nom": {"$regex": search}})
@@ -141,44 +141,44 @@ def adminGetAllUser():
 #Activation d'un utilisateur
 @app.route('/admin/approve-user/<id>')
 def adminApprove(id):
-    if not session.get('admin_id'):
-        return redirect('/admin/')
+    # if not session.get('admin_id'):
+    #     return redirect('/admin/')
     mycollection.update_one({'_id': ObjectId(id)},{'$set': {'active': 1}})
     flash('Activation avec succès','success')
     return redirect('/admin/get-all-user')
 
 # change admin password
-@app.route('/admin/change-admin-password',methods=["POST","GET"])
-def adminChangePassword():
-    admin = mycollection.find_one({"role": "admin"})
-    if request.method == 'POST':
-        email=request.form.get('email')
-        password=request.form.get('password')
-        if email == "" or password=="":
-            flash('Veuillez remplir tous les champs','danger')
-            return redirect('/admin/change-admin-password')
-        else:
-            result = mycollection.update_one({"_id": ObjectId(admin["_id"])},{"$set": {"password": password}})
+# @app.route('/admin/change-admin-password',methods=["POST","GET"])
+# def adminChangePassword():
+#     admin = mycollection.find_one({"role": "admin"})
+#     if request.method == 'POST':
+#         email=request.form.get('email')
+#         password=request.form.get('password')
+#         if email == "" or password=="":
+#             flash('Veuillez remplir tous les champs','danger')
+#             return redirect('/admin/change-admin-password')
+#         else:
+#             result = mycollection.update_one({"_id": ObjectId(admin["_id"])},{"$set": {"password": password}})
           
             
-            if result.acknowledged:
-                flash('Mise à jour du mot de passe d’administrateur réussie','success')
-            else:
-                print("Update operation not acknowledged")
-            return redirect('/admin/change-admin-password')
-    else:
-        return render_template('admin/admin-change-password.html',title='Admin Change Password',admin=admin)
+#             if result.acknowledged:
+#                 flash('Mise à jour du mot de passe d’administrateur réussie','success')
+#             else:
+#                 print("Update operation not acknowledged")
+#             return redirect('/admin/change-admin-password')
+#     else:
+#         return render_template('admin/admin-change-password.html',title='Admin Change Password',admin=admin)
 
 
 # admin logout
-@app.route('/admin/logout')
-def adminLogout():
-    if not session.get('admin_id'):
-        return redirect('/admin/')
-    if session.get('admin_id'):
-        session['admin_id']=None
-        session['admin_name']=None
-        return redirect('/')
+# @app.route('/admin/logout')
+# def adminLogout():
+#     if not session.get('admin_id'):
+#         return redirect('/admin/')
+#     if session.get('admin_id'):
+#         session['admin_id']=None
+#         session['admin_name']=None
+#         return redirect('/')
 
 
 # user dashboard
@@ -252,6 +252,8 @@ def userUpdateProfile():
             return redirect('/user/dashboard')
     else:
         return render_template('user/update-profile.html',title="Update Profile",user=user)
+
+
 
 
 
