@@ -147,6 +147,16 @@ def adminApprove(id):
     flash('Activation avec succès','success')
     return redirect('/admin/get-all-user')
 
+
+#Suppresion d'un utilisateur
+@app.route('/admin/delete/<id>')
+def deleteUser(id):
+    # if not session.get('admin_id'):
+    #     return redirect('/admin/')
+    mycollection.find_one_and_delete({'_id': ObjectId(id)})
+    flash('Suppresion avec succès','danger')
+    return redirect('/admin/get-all-user')
+
 # change admin password
 # @app.route('/admin/change-admin-password',methods=["POST","GET"])
 # def adminChangePassword():
